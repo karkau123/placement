@@ -1,20 +1,8 @@
+// https://leetcode.com/tag/two-pointers/discuss/1122776/Summary-of-Sliding-Window-Patterns-for-Subarray-Substring
 #include <bits/stdc++.h>
-#define ll long long int
-#define lp(i, a, b) for (ll i = a; i < b; i++)
-#define lpa(i, a, b, x) for (ll i = a; i < b; i += x)
-#define pl(i, a, b) for (ll i = a; i >= b; i--)
-#define pb push_back
-#define ms(a, x) memset(a, x, sizeof(a))
-#define all(v) v.begin(), v.end()
-#define pll pair<ll, ll>
-#define vpll vector<pll>
-#define vll vector<ll>
-#define vvll vector<vll>
-#define ff first
-#define ss second
 using namespace std;
-//testing
-// Given a string s, find the length of the longest  substring  without repeating characters.
+
+// 1.Given a string s, find the length of the longest  substring  without repeating characters.
 int lengthOfLongestSubstring(string s)
 {
     int n = s.size();
@@ -40,7 +28,7 @@ int lengthOfLongestSubstring(string s)
     return maxi;
 }
 
-// Given a binary array nums and an integer k, return the maximum number of consecutive 1's in the array if you can flip at most k 0's.
+// 2.Given a binary array nums and an integer k, return the maximum number of consecutive 1's in the array if you can flip at most k 0's.
 
 int longestOnes(vector<int> &nums, int k)
 {
@@ -70,7 +58,7 @@ int longestOnes(vector<int> &nums, int k)
     return maxi;
 }
 
-// You are given a string s and an integer k. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most k times.Return the length of the longest substring containing the same letter you can get after performing the above operations.
+// 3.You are given a string s and an integer k. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most k times.Return the length of the longest substring containing the same letter you can get after performing the above operations.
 // TRACKING FREQUENCY
 int characterReplacement(string s, int k)
 {
@@ -94,7 +82,7 @@ int characterReplacement(string s, int k)
     return maxi;
 }
 
-// Given a binary array nums and an integer goal, return the number of non-empty subarrays with a sum goal.A subarray is a contiguous part of the arra
+// 4.Given a binary array nums and an integer goal, return the number of non-empty subarrays with a sum goal.A subarray is a contiguous part of the arra
 // PREFIX SUM AND MAP CONCEPT
 int numSubarraysWithSum(vector<int> &nums, int goal)
 {
@@ -115,7 +103,7 @@ int numSubarraysWithSum(vector<int> &nums, int goal)
     return cnt;
 }
 
-// Given an integer array nums and an integer k, return the number of good subarrays of nums.A good array is an array where the number of different integers in that array is exactly k.
+// 5.Given an integer array nums and an integer k, return the number of good subarrays of nums.A good array is an array where the number of different integers in that array is exactly k.
 // ATMOST ATLEAST CONTRAINTS
 class AtMost_pattern
 {
@@ -150,7 +138,7 @@ public:
     }
 };
 
-// Given an array of integers nums and an integer k. A continuous subarray is called nice if there are k odd numbers on it.Return the number of nice sub-arrays.
+// 6.Given an array of integers nums and an integer k. A continuous subarray is called nice if there are k odd numbers on it.Return the number of nice sub-arrays.
 
 int numberOfSubarrays(vector<int> &nums, int k)
 {
@@ -170,7 +158,7 @@ int numberOfSubarrays(vector<int> &nums, int k)
     {
         prefix_sum += nums[i];
         int rem = prefix_sum - k;
-     
+
         if (mpp.find(rem) != mpp.end())
         {
             cnt += mpp[prefix_sum - k];
@@ -180,8 +168,69 @@ int numberOfSubarrays(vector<int> &nums, int k)
     return cnt;
 }
 
+//  7.1358. Number of Substrings Containing All Three Characters
+//  good problem
 
+int numberOfSubstrings(string s)
+{
+    int n = s.length();
+    vector<int> lastseen(3, -1);
+    int low = 0, high = 0, ans = 0;
+    while (high < n)
+    {
+        lastseen[s[high] - 'a'] = high;
+        ans += (1 + min({lastseen[0], lastseen[1], lastseen[2]}));
+        high++;
+    }
+    return ans;
+}
 
+// 8.Given an array of integers nums and an integer k, return the number of contiguous subarrays where the product of all the elements in the subarray is strictly less than k.
+
+int numSubarrayProductLessThanK(vector<int> &nums, int k)
+{
+    int n = nums.size();
+    int i = 0, j = 0, cnt = 0;
+    int product = 1;
+    if (k <= 1)
+        return 0;
+    while (j < n)
+    {
+        product *= nums[j];
+
+        while (product >= k)
+        {
+            product /= nums[i];
+            i++;
+        }
+        if (product < k)
+        {
+            cnt += j - i + 1; // https://leetcode.com/problems/subarray-product-less-than-k/solutions/3131119/sliding-window-approach-with-simple-mathematics-trick-c/
+        }
+        j++;
+    }
+    return cnt;
+}
+
+// 9.Given an integer array nums and an integer k, return the number of non-empty subarrays that have a sum divisible by k. A subarray is a contiguous part of an array.
+
+int subarraysDivByK(vector<int> &nums, int k)
+{
+    int n = nums.size();
+    map<int, int> mpp;
+    mpp[0] = 1;
+    int sum = 0, cnt = 0;
+    for (int i = 0; i < n; i++)
+    {
+        sum = (sum + nums[i] % k + k) % k;  //https://leetcode.com/problems/subarray-sums-divisible-by-k/solutions/5284301/simple-trick-c-detailed/
+        if (mpp.find(sum) != mpp.end())
+        {
+            cnt += mpp[sum];
+        }
+        mpp[sum]++;
+    }
+    return cnt;
+}
 
 int main()
 {
