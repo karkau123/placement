@@ -1,0 +1,13 @@
+1 ->
+
+/*  The most important thing I am learning from this question is that when you have #n elements, making a heap(priority_queue in c++) from n elements by pushing them one by one will be O(N*log(N)) and if we push them all at once then it would be O(N).
+If this does'nt amaze you when you come to know this fact for the first time, then nothing will.  */
+   
+   
+    //  O(N*log(N))
+    priority_queue<int> p;
+    for(auto x : arr) p.push(x);
+
+    // O(N)
+    priority_queue<int> p(arr.begin(), arr.end());
+    // It uses Floyds heapify algorithm
