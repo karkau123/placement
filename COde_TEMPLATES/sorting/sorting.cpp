@@ -3,9 +3,6 @@
 using namespace std;
 #define ll long long
 #define all(v) v.begin(),v.end()
-const int dx[4] = {-1,1,0,0};
-const int dy[4] = {0,0,-1,1};
-const int mod = 1e9+7;
 
 /*
 Inplace: Uses a constant amount of extra space.
@@ -59,7 +56,7 @@ void selectionSort(vector<int>&a,int n){
 Bubble Sort - Swaps adjacent elements to move the largest unsorted element 
           to its correct position.
 
-Best: O(N) (when the array is already sorted)
+Best: O(N) (when the array is already sorted)                           // because when there is no swap the algo simply breaks out 
 Average: O(N²)
 Worst: O(N²) (when the array is reverse sorted)
 
