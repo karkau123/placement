@@ -18,7 +18,32 @@ using namespace std;
   ll n , m , k;
   cin >> n >>m >>k ;
   vll a (n) , b(m);
-  lp (i , 0 , n ) cin >> a[i];
-  lp (i , 0 ,m) cin >> b[i];
+  lp (i , 0 , n ) cin >> a[i];    // n people   i  
+  lp (i , 0 ,m) cin >> b[i];      // m apartments  j 
+  ll cnt = 0;
+  ll i =0 , j =0 ;
+  sort (a.begin() , a.end());
+  sort (b.begin() , b.end());
+  while (j < m && i < n)
+  {
+    if (abs(a[i] - b[j]) <= k) {
+			++i;
+			++j;
+			++cnt;
+		}
+      else
+      { 
+          // apatment chota hai
+          if (a[i]-b[j] > k)
+          {
+              // search next bigger apartment
+                j++;
+          }
+          else {
+            i++;
+          }
+      }
+  }
+  cout << cnt << endl;
   return 0;
 }
