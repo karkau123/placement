@@ -13,26 +13,28 @@
 #define ff first
 #define ss second
 using namespace std;
+int findmed(vll a , int n )
+{
+    ll mid = n/2;
+    if (n%2 == 1)  
+    {
+         return a[mid];  
+    }
+    return ((a[mid]+a[mid-1])/2);
+}
  int main()
 {
-  ll n;
-   cin >> n;
-   vll  a (n);
-   lp (i , 0 , n) cin >> a[i];
-   ll sum  = 0;
-   ll maxi = *max_element(a.begin() , a.end());
-   for (int i=0 ; i< n ; i++)
-   {
-      sum += a[i];
-      if (sum > 0)
-      {
-         maxi = max (maxi , sum);
-      }
-      else
-      sum = 0;
-
-   }
-  cout << maxi << endl;
-
+  ll n ;
+  cin >> n;
+  vll a (n);
+  lp (i , 0 , n) cin >> a[i];
+  sort (a.begin() , a.end());
+  int med = findmed(a , n);
+  ll sum = 0;
+  lp (i , 0 , n)
+  {
+     sum += abs (a[i] - med);
+  }
+  cout  << sum << endl;
   return 0;
 }
